@@ -34,10 +34,10 @@ start_listening() {
 }
 
 send_at_command() {
-    echo -e "\e[1;31mThis only works for basic quick responding commands!\e[0m"  # Red
-    echo -e "\e[1;36mType 'install' to simply type atcmd in shell from now on\e[0m"
-    echo -e "\e[1;36mThe installed version is much better than this portable version\e[0m"
-    echo -e "\e[1;32mEnter AT command (or type 'exit' to quit): \e[0m"
+    echo -e "\e[1;31m这仅适用于基本的快速响应指令!\e[0m"  # Red
+    echo -e "\e[1;36m键入“install”，从现在开始只需在shell中键入atcmd\e[0m"
+    echo -e "\e[1;36m已安装的版本比这个便携版本好得多\e[0m"
+    echo -e "\e[1;32m请输入AT指令 (或输入 'exit' 来退出): \e[0m"
     read at_command
     if [ "$at_command" = "exit" ]; then
         return 1
@@ -45,7 +45,7 @@ send_at_command() {
     
     if [ "$at_command" = "install" ]; then
 		install_update_at_socat
-		echo -e "\e[1;32mInstalled. Type atcmd from adb shell or ssh to start an AT Command session\e[0m"
+		echo -e "\e[1;32m已安装。从adb shell或ssh键入atcmd以启动AT命令会话\e[0m"
 		return 1
     fi
     echo -e "${at_command}\r" > "$DEVICE_FILE"
@@ -56,19 +56,19 @@ wait_for_response() {
     local current_time
     local elapsed_time
 
-    echo -e "\e[1;32mCommand sent, waiting for response...\e[0m"
+    echo -e "\e[1;32m指令已发送，等待响应...\e[0m"
     while true; do
         if grep -qe "OK" -e "ERROR" /tmp/device_readout; then
-            echo -e "\e[1;32mResponse received:\e[0m"
+            echo -e "\e[1;32m响应收到:\e[0m"
             cat /tmp/device_readout
             return 0
         fi
         current_time=$(date +%s)
         elapsed_time=$((current_time - start_time))
         if [ "$elapsed_time" -ge "$TIMEOUT" ]; then
-            echo -e "\e[1;31mError: Response timed out.\e[0m"  # Red
-	    echo -e "\e[1;32mIf the responce takes longer than a second or 2 to respond this will not work\e[0m"  # Green
-	    echo -e "\e[1;36mType install to install the better version of this that will work.\e[0m"  # Cyan
+            echo -e "\e[1;31m错误：响应超时.\e[0m"  # Red
+	    echo -e "\e[1;32m如果响应时间超过1秒或2秒，则此操作将不起作用\e[0m"  # Green
+	    echo -e "\e[1;36m键入install以安装更好的版本.\e[0m"  # Cyan
             return 1
         fi
         sleep 1
@@ -94,27 +94,27 @@ send_at_commands() {
             cleanup
         done
     else
-        echo -e "\e[1;31mError: Device $DEVICE_FILE does not exist!\e[0m"
+        echo -e "\e[1;31m错误: 设备 $DEVICE_FILE 不存在!\e[0m"
     fi
 }
 
-# Check for existing Entware/opkg installation, install if not installed
+# Check for existing Entware/opkg installation, install if 否t installed
 ensure_entware_installed() {
 	remount_rw
     if [ ! -f "/opt/bin/opkg" ]; then
-        echo -e "\e[1;32mInstalling Entware/OPKG\e[0m"
+        echo -e "\e[1;32m安装 Entware/OPKG\e[0m"
         cd /tmp && wget -O installentware.sh "https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/installentware.sh" && chmod +x installentware.sh && ./installentware.sh
         if [ "$?" -ne 0 ]; then
-            echo -e "\e[1;31mEntware/OPKG installation failed. Please check your internet connection or the repository URL.\e[0m"
+            echo -e "\e[1;31mEntware/OPKG 安装失败，请检查您的互联网连接或存储库URL。\e[0m"
             exit 1
         fi
         cd /
     else
-        echo -e "\e[1;32mEntware/OPKG is already installed.\e[0m"
+        echo -e "\e[1;32mEntware/OPKG 安装完成。\e[0m"
         if [ "$(readlink /bin/login)" != "/opt/bin/login" ]; then
             opkg update && opkg install shadow-login shadow-passwd shadow-useradd
             if [ "$?" -ne 0 ]; then
-                echo -e "\e[1;31mPackage installation failed. Please check your internet connection and try again.\e[0m"
+                echo -e "\e[1;31mPackage 安装失败。请检查您的互联网连接，然后重试。\e[0m"
                 exit 1
             fi
 
@@ -133,7 +133,7 @@ ensure_entware_installed() {
             ln -sf /opt/bin/login /bin
             ln -sf /opt/bin/passwd /usr/bin/
 			ln -sf /opt/bin/useradd /usr/bin/
-            echo -e "\e[1;31mPlease set the root password.\e[0m"
+            echo -e "\e[1;31m请设置一个root密码。\e[0m"
             /opt/bin/passwd
 
             # Install basic and useful utilities
@@ -155,27 +155,27 @@ ensure_entware_installed() {
         fi
     fi
 	if [ ! -f "/opt/sbin/useradd" ]; then
-		echo "useradd does not exist. Installing shadow-useradd..."
+		echo "useradd 不存在，开始安装 shadow-useradd..."
 		opkg install shadow-useradd
 		else
-		echo "useradd already exists. Continuing..."
+		echo "useradd 已存在， 继续..."
 	fi
     
 	if [ ! -f "/usr/bin/curl" ] && [ ! -f "/opt/bin/curl" ]; then
-        echo "curl does not exist. Installing curl..."
+        echo "curl 不存在，安装 curl..."
         opkg update && opkg install curl
         if [ "$?" -ne 0 ]; then
-            echo -e "\e[1;31mFailed to install curl. Please check your internet connection and try again.\e[0m"
+            echo -e "\e[1;31mcurl安装失败，请检查您的互联网连接，然后重试。\e[0m"
             exit 1
         fi
     else
-        echo "curl already exists. Continuing..."
+        echo "curl 已安装，继续..."
     fi
 }
 
 #Uninstall Entware if the Users chooses 
 uninstall_entware() {
-    echo -e '\033[31mInfo: Starting Entware/OPKG uninstallation...\033[0m'
+    echo -e '\033[31mInfo: 开始Entware/OPKG卸载进程...\033[0m'
 
     # Stop services
     systemctl stop rc.unslung.service
@@ -203,16 +203,16 @@ uninstall_entware() {
     rm /bin/login
     ln /bin/login.shadow /bin/login
 
-    echo -e '\033[32mInfo: Entware/OPKG has been uninstalled successfully.\033[0m'
+    echo -e '\033[32mInfo: Entware/OPKG 已被成功卸载。\033[0m'
 }
 
 # function to configure the fetures of simplefirewall
 configure_simple_firewall() {
     if [ ! -f "$SIMPLE_FIREWALL_SCRIPT" ]; then
-        echo -e "\033[0;31mSimplefirewall is not installed, would you like to install it?\033[0m"
-        echo -e "\033[0;32m1) Yes\033[0m"
-        echo -e "\033[0;31m2) No\033[0m"
-        read -p "Enter your choice (1-2): " install_choice
+        echo -e "\033[0;31mSimplefirewall未安装，你想要安装它吗?\033[0m"
+        echo -e "\033[0;32m1) 是\033[0m"
+        echo -e "\033[0;31m2) 否\033[0m"
+        read -p "输入选择(1-2): " install_choice
 
         case $install_choice in
             1)
@@ -222,35 +222,35 @@ configure_simple_firewall() {
                 return
                 ;;
             *)
-                echo -e "\033[0;31mInvalid choice. Please select either 1 or 2.\033[0m"
+                echo -e "\033[0;31m无效选择， 请选择 1 或 2。\033[0m"
                 ;;
         esac
     fi
 
-    echo -e "\e[1;32mConfigure Simple Firewall:\e[0m"
-    echo -e "\e[38;5;208m1) Configure incoming port block\e[0m"
-    echo -e "\e[38;5;27m2) Configure TTL\e[0m"
-    read -p "Enter your choice (1-2): " menu_choice
+    echo -e "\e[1;32m配置Simple Firewall:\e[0m"
+    echo -e "\e[38;5;208m1) 配置传入端口块\e[0m"
+    echo -e "\e[38;5;27m2) 配置TTL\e[0m"
+    read -p "输入选择(1-2): " menu_choice
 
     case $menu_choice in
     1)
         # Original ports configuration code with exit option
         current_ports_line=$(grep '^PORTS=' "$SIMPLE_FIREWALL_SCRIPT")
         ports=$(echo "$current_ports_line" | cut -d'=' -f2 | tr -d '()' | tr ' ' '\n' | grep -o '[0-9]\+')
-        echo -e "\e[1;32mCurrent configured ports:\e[0m"
+        echo -e "\e[1;32m当前配置的端口:\e[0m"
         echo "$ports" | awk '{print NR") "$0}'
 
         while true; do
-            echo -e "\e[1;32mEnter a port number to add/remove, or type 'done' or 'exit' to finish:\e[0m"
+            echo -e "\e[1;32m输入要添加/删除的端口号，或键入“完成”或“退出”以完成:\e[0m"
             read port
             if [ "$port" = "done" ] || [ "$port" = "exit" ]; then
                 if [ "$port" = "exit" ]; then
-                    echo -e "\e[1;31mExiting without making changes...\e[0m"
+                    echo -e "\e[1;31m正在退出而不进行更改...\e[0m"
                     return
                 fi
                 break
             elif ! echo "$port" | grep -qE '^[0-9]+$'; then
-                echo -e "\e[1;31mInvalid input: Please enter a numeric value.\e[0m"
+                echo -e "\e[1;31m输入无效：请输入一个数值。\e[0m"
             elif echo "$ports" | grep -q "^$port\$"; then
                 ports=$(echo "$ports" | grep -v "^$port\$")
                 echo -e "\e[1;32mPort $port removed.\e[0m"
@@ -269,33 +269,33 @@ configure_simple_firewall() {
         # TTL configuration code
         ttl_value=$(cat /usrdata/simplefirewall/ttlvalue)
         if [ "$ttl_value" -eq 0 ]; then
-            echo -e "\e[1;31mTTL is not set.\e[0m"
+            echo -e "\e[1;31mTTL未设置\e[0m"
         else
-            echo -e "\e[1;32mTTL value is set to $ttl_value.\e[0m"
+            echo -e "\e[1;32mTTL已设置为$ttl_value.\e[0m"
         fi
 
-        echo -e "\e[1;31mType 'exit' to cancel.\e[0m"
-        read -p "What do you want the TTL value to be: " new_ttl_value
+        echo -e "\e[1;31m输入'exit'来取消。\e[0m"
+        read -p "您希望TTL值是什么：" new_ttl_value
         if [ "$new_ttl_value" = "exit" ]; then
-            echo -e "\e[1;31mExiting TTL configuration...\e[0m"
+            echo -e "\e[1;31m正在退出TTL配置...\e[0m"
             return
         elif ! echo "$new_ttl_value" | grep -qE '^[0-9]+$'; then
-            echo -e "\e[1;31mInvalid input: Please enter a numeric value.\e[0m"
+            echo -e "\e[1;31m输入无效：请输入一个数值。\e[0m"
             return
         else
             /usrdata/simplefirewall/ttl-override stop
 	    echo "$new_ttl_value" > /usrdata/simplefirewall/ttlvalue
      	    /usrdata/simplefirewall/ttl-override start
-            echo -e "\033[0;32mTTL value updated to $new_ttl_value.\033[0m"
+            echo -e "\033[0;32mTTL被更新为$new_ttl_value.\033[0m"
         fi
         ;;
     *)
-        echo -e "\e[1;31mInvalid choice. Please select either 1 or 2.\e[0m"
+        echo -e "\e[1;31m无效选择，请选择 1 或 2.\e[0m"
         ;;
     esac
 
     systemctl restart simplefirewall
-    echo -e "\e[1;32mFirewall configuration updated.\e[0m"
+    echo -e "\e[1;32m防火墙配置已更新。\e[0m"
 }
 
 set_simpleadmin_passwd(){
@@ -304,64 +304,64 @@ set_simpleadmin_passwd(){
   	opkg install libaprutil
 	wget -O /usrdata/root/bin/htpasswd https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleadmin/htpasswd && chmod +x /usrdata/root/bin/htpasswd
 	wget -O /usrdata/root/bin/simplepasswd https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleadmin/simplepasswd && chmod +x /usrdata/root/bin/simplepasswd
-	echo -e "\e[1;32mTo change your simpleadmin (admin) password in the future...\e[0m"
-	echo -e "\e[1;32mIn the console type simplepasswd and press enter\e[0m"
+	echo -e "\e[1;32m要在将来更改您的simpleadmin（admin）密码...\e[0m"
+	echo -e "\e[1;32m在控制台中键入web控制台的密码，然后按enter键\e[0m"
 	/usrdata/root/bin/simplepasswd
 	
 }
 
 set_root_passwd() {
-	echo -e "\e[1;31mPlease set the root/console password.\e[0m"
+	echo -e "\e[1;31m请设置root/console密码。\e[0m"
 	/opt/bin/passwd
 }
 
 # Function to install/update Simple Admin
 install_simple_admin() {
     while true; do
-	echo -e "\e[1;32m请确认您的操作，这将在80/443端口启动web服务\e[0m"
-#echo -e "\e[1;32m2) stable版本\e[0m"
-    echo -e "\e[1;31m1) 安装新版本\e[0m"
+	echo -e "\e[1;32m将要安装新版web控制台，将在 80/443 端口开启服务\e[0m"
+#echo -e "\e[1;32m111) Stable current version, (Main Branch)\e[0m"
+	echo -e "\e[1;31m1) 安装\e[0m"
 	echo -e "\e[0;33m0) 返回主菜单\e[0m"
- 	echo -e "\e[1;32mSelect your choice: \e[0m"
+ 	echo -e "\e[1;32m选择您的操作: \e[0m"
         read choice
 
         case $choice in
         111)
-            echo -e "\e[1;32mYou are using the development toolkit; Use the one from main if you want the stable version right now\e[0m"
+            echo -e "\e[1;32mYou are using the development toolkit; Use the one from main if you want the stable version right 否w\e[0m"
             break
 			;;
         1)
 			ensure_entware_installed
-			echo -e "\e[1;31m2) 开始安装web控制台\e[0m"
+			echo -e "\e[1;31m2) 开始安装新版控制台\e[0m"
 			mkdir /usrdata/simpleupdates > /dev/null 2>&1
 		    mkdir /usrdata/simpleupdates/scripts > /dev/null 2>&1
 		    wget -O /usrdata/simpleupdates/scripts/update_socat-at-bridge.sh https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleupdates/scripts/update_socat-at-bridge.sh && chmod +x /usrdata/simpleupdates/scripts/update_socat-at-bridge.sh
-		    echo -e "\e[1;32m正在安装组件: socat-at-bridge\e[0m"
+		    echo -e "\e[1;32m安装/更新 依赖软件: socat-at-bridge\e[0m"
 			echo -e "\e[1;32m请等待....\e[0m"
 			/usrdata/simpleupdates/scripts/update_socat-at-bridge.sh
-			echo -e "\e[1;32m 组件: socat-at-bridge已安装\e[0m"
+			echo -e "\e[1;32m 依赖包: socat-at-bridge 已被更新/安装完成.\e[0m"
 			sleep 1
 		    wget -O /usrdata/simpleupdates/scripts/update_simplefirewall.sh https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleupdates/scripts/update_simplefirewall.sh && chmod +x /usrdata/simpleupdates/scripts/update_simplefirewall.sh
-		    echo -e "\e[1;32m正在安装组件: simplefirewall\e[0m"
+		    echo -e "\e[1;32m安装/更新 依赖软件: simplefirewall\e[0m"
 			echo -e "\e[1;32m请等待....\e[0m"
 			/usrdata/simpleupdates/scripts/update_simplefirewall.sh
-			echo -e "\e[1;32m 组件: simplefirewall已安装\e[0m"
+			echo -e "\e[1;32m 依赖包: simplefirewall 已被更新/安装完成.\e[0m"
 			sleep 1
 			set_simpleadmin_passwd
 		    wget -O /usrdata/simpleupdates/scripts/update_simpleadmin.sh https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleupdates/scripts/update_simpleadmin.sh && chmod +x /usrdata/simpleupdates/scripts/update_simpleadmin.sh
-			echo -e "\e[1;32m正在安装: Simpleadmin content\e[0m"
+			echo -e "\e[1;32m安装/更新: web控制台 组件\e[0m"
 			echo -e "\e[1;32m请等待....\e[0m"
 			/usrdata/simpleupdates/scripts/update_simpleadmin.sh
-            echo -e "\e[1;32mSimpleadmin content has been updated/installed.\e[0m"
+            echo -e "\e[1;32mweb控制台 组件已安装\e[0m"
 			sleep 1
             break
             ;;
 	    0)
-                echo "正在返回主菜单..."
+                echo "返回主菜单..."
                 break
                 ;;
             *)
-                echo "输入无效，请重新选择"
+                echo "无效选择，请重新输入"
                 ;;
         esac
     done
@@ -369,16 +369,16 @@ install_simple_admin() {
 
 # Function to Uninstall Simpleadmin and dependencies
 uninstall_simpleadmin_components() {
-    echo -e "\e[1;32m开始web控制台卸载进程.\e[0m"
-    echo -e "\e[1;32m注意：卸载某些组件会对整体造成影响.\e[0m"
+    echo -e "\e[1;32m开始卸载web控制台.\e[0m"
+    echo -e "\e[1;32m注意：卸载某些组件可能会影响其他组件的功能。\e[0m"
     remount_rw
 
     # Uninstall Simple Firewall
     echo -e "\e[1;32m是否卸载Simplefirewall?\e[0m"
-    echo -e "\e[1;31m如果选择是，TTL组件将无法工作\e[0m"
+#echo -e "\e[1;31mIf you do, the TTL part of simpleadmin will 否 longer work.\e[0m"
     echo -e "\e[1;32m1) 是\e[0m"
     echo -e "\e[1;31m2) 否\e[0m"
-    read -p "请输入选项 (1 or 2): " choice_simplefirewall
+    read -p "请选择您要进行的操作(1 or 2): " choice_simplefirewall
     if [ "$choice_simplefirewall" -eq 1 ]; then
         echo "正在卸载Simplefirewall..."
         systemctl stop simplefirewall
@@ -387,15 +387,15 @@ uninstall_simpleadmin_components() {
         rm -f /lib/systemd/system/ttl-override.service
         systemctl daemon-reload
         rm -rf "$SIMPLE_FIREWALL_DIR"
-        echo "Simplefirewall已卸载"
+        echo "Simplefirewall卸载完成。"
     fi
 
     # Uninstall socat-at-bridge
-    echo -e "\e[1;32m是否卸载AT桥?\e[0m"
-    echo -e "\e[1;31m如果选择是, AT指令与起始页将无法工作\e[0m"
+    echo -e "\e[1;32m是否卸载socat-at-bridge?\e[0m"
+#echo -e "\e[1;31mIf you do, AT commands and the stat page will 否 longer work. atcmd won't either.\e[0m"
     echo -e "\e[1;32m1) 是\e[0m"
     echo -e "\e[1;31m2) 否\e[0m"
-    read -p "请输入选项 (1 or 2): " choice_socat_at_bridge
+    read -p "请选择您要进行的操作(1 or 2): " choice_socat_at_bridge
     if [ "$choice_socat_at_bridge" -eq 1 ]; then
         echo -e "\033[0;32mRemoving installed AT Socat Bridge services...\033[0m"
 		systemctl stop at-telnet-daemon > /dev/null 2>&1
@@ -422,30 +422,30 @@ uninstall_simpleadmin_components() {
 		rm -rf "$SOCAT_AT_DIR" > /dev/null 2>&1
 		rm -rf "/usrdata/micropython" > /dev/null 2>&1
 		rm -rf "/usrdata/at-telnet" > /dev/null 2>&1
-		echo -e "\033[0;32mAT桥组件已卸载\033[0m"
+		echo -e "\033[0;32mAT Socat Bridge services removed!...\033[0m"
     fi
 
 	# Uninstall ttyd
-    echo -e "\e[1;32m是否卸载ttyd (simpleadmin console)?\e[0m"
-	echo -e "\e[1;31m正在使用ttyd时请不要卸载！！\e[0m"
+    echo -e "\e[1;32m是否卸载 ttyd (simpleadmin console)?\e[0m"
+#echo -e "\e[1;31mWarning: Do 否t uninstall if you are currently using ttyd to do this!!!\e[0m"
     echo -e "\e[1;32m1) 是\e[0m"
     echo -e "\e[1;31m2) 否\e[0m"
-    read -p "请输入选项 (1 or 2): " choice_simpleadmin
+    read -p "请选择您要进行的操作(1 or 2): " choice_simpleadmin
     if [ "$choice_simpleadmin" -eq 1 ]; then
-		echo -e "\e[1;34m正在卸载ttyd...\e[0m"
+		echo -e "\e[1;34mUninstalling ttyd...\e[0m"
         systemctl stop ttyd
         rm -rf /usrdata/ttyd
         rm /lib/systemd/system/ttyd.service
         rm /lib/systemd/system/multi-user.target.wants/ttyd.service
         rm /bin/ttyd
-        echo -e "\e[1;32mttyd已卸载.\e[0m"
+        echo -e "\e[1;32mttyd已被卸载\e[0m"
 	fi
 
-	echo "正在卸载web控制台剩余部分..."
+	echo "卸载web控制台剩余部分..."
 		
 	# Check if Lighttpd service is installed and remove it if present
 	if [ -f "/lib/systemd/system/lighttpd.service" ]; then
-		echo "Lighttpd detected, uninstalling Lighttpd and its modules..."
+		echo "检测到Lighttpd，正在卸载Lighttpd及其模块..."
 		systemctl stop lighttpd
 		opkg --force-remove --force-removal-of-dependent-packages remove lighttpd-mod-authn_file lighttpd-mod-auth lighttpd-mod-cgi lighttpd-mod-openssl lighttpd-mod-proxy lighttpd
 		rm -rf $LIGHTTPD_DIR
@@ -457,10 +457,10 @@ uninstall_simpleadmin_components() {
 	rm -f /lib/systemd/system/simpleadmin_generate_status.service
 	systemctl daemon-reload
 	rm -rf "$SIMPLE_ADMIN_DIR"
-	echo "The rest of Simpleadmin and Lighttpd (if present) uninstalled."
+	echo "web控制台剩余部分与 Lighttpd (if present) 卸载完成"
 	remount_ro
 
-    echo "卸载进程完成"
+    echo "卸载进程完成."
 }
 
 # Function for Tailscale Submenu
@@ -470,7 +470,7 @@ tailscale_menu() {
 	echo -e "\e[1;32m1) Install/Update Tailscale\e[0m"
 	echo -e "\e[1;36m2) Configure Tailscale\e[0m"
 	echo -e "\e[1;31m3) Return to Main Menu\e[0m"
-        read -p "Enter your choice: " tailscale_choice
+        read -p "请选择您要进行的操作" tailscale_choice
 
         case $tailscale_choice in
             1) install_update_tailscale;;
@@ -507,7 +507,7 @@ configure_tailscale() {
     echo -e "\e[38;5;172m6) Disconnect from Tailnet (reconnects at reboot)\e[0m"  # Light yellow
     echo -e "\e[1;31m7) Logout from tailscale account\e[0m"
     echo -e "\e[38;5;27m8) Return to Tailscale Menu\e[0m"
-    read -p "Enter your choice: " config_choice
+    read -p "请选择您要进行的操作" config_choice
 
         case $config_choice in
         1)
@@ -636,8 +636,8 @@ Description=Reboot Modem Daily
 [Service]
 Type=oneshot
 ExecStart=/bin/sh /usrdata/reboot_modem.sh
-Restart=no
-RemainAfterExit=no" > /lib/systemd/system/rebootmodem.service
+Restart=否
+RemainAfterExit=否" > /lib/systemd/system/rebootmodem.service
 
     # Create the systemd timer file with the user-specified time
     echo "[Unit]
@@ -654,7 +654,7 @@ Description=Trigger the rebootmodem timer at boot
 [Service]
 Type=oneshot
 ExecStart=/bin/systemctl start rebootmodem.timer
-RemainAfterExit=yes" > /lib/systemd/system/rebootmodem-trigger.service
+RemainAfterExit=是" > /lib/systemd/system/rebootmodem-trigger.service
 
     # Create symbolic links for the trigger service in the wanted directory
     ln -sf /lib/systemd/system/rebootmodem-trigger.service /lib/systemd/system/multi-user.target.wants/
@@ -680,9 +680,9 @@ manage_cfun_fix() {
 
     if [ -f "$cfun_service_path" ]; then
         echo -e "\e[1;32mThe CFUN fix is already installed. Do you want to remove it?\e[0m"  # Green
-	echo -e "\e[1;32m1) Yes\e[0m"  # Green
-	echo -e "\e[1;31m2) No\e[0m"   # Red
-        read -p "Enter your choice: " choice
+	echo -e "\e[1;32m1) 是\e[0m"  # Green
+	echo -e "\e[1;31m2) 否\e[0m"   # Red
+        read -p "请选择您要进行的操作" choice
 
         if [ "$choice" = "1" ]; then
             echo "Removing CFUN fix..."
@@ -711,7 +711,7 @@ After=network.target
 [Service]
 Type=oneshot
 ExecStart=$cfun_fix_script
-RemainAfterExit=yes
+RemainAfterExit=是
 
 [Install]
 WantedBy=multi-user.target" > "$cfun_service_path"
@@ -751,7 +751,7 @@ install_sshd() {
         esac
     fi
 
-    # Proceed with installation or updating if not uninstalling
+    # Proceed with installation or updating if 否t uninstalling
 	ensure_entware_installed
     mkdir /usrdata/simpleupdates > /dev/null 2>&1
 	mkdir /usrdata/simpleupdates/scripts > /dev/null 2>&1
@@ -768,14 +768,15 @@ while true; do
 
     echo -e "\e[92m"
     echo "欢迎使用卤蛋瞎鼓捣出来的移远模块web控制台安装程序"
+    echo "感谢@Sy对本web控制台进行汉化"
     echo -e "\e[0m"
-    echo "请选择操作:"
+    echo "选择一个操作:"
     echo -e "\e[0m"
-#echo -e "\e[96m1) Send AT Commands\e[0m" # Cyan
+    echo -e "\e[96m4) 发送AT指令\e[0m" # Cyan
     echo -e "\e[93m1) 安装web控制台\e[0m" # Yellow
-	echo -e "\e[95m2) 设置web控制台admin密码\e[0m" # Light Purple
-	echo -e "\e[94m3) 设置用于console管理的root密码\e[0m" # Light Blue
-    echo -e "\e[91m4) 卸载web控制台\e[0m" # Light Red	
+	echo -e "\e[95m2) 设置web控制台 (admin) 密码\e[0m" # Light Purple
+	echo -e "\e[94m3) 设置Console/ttyd (root) 密码\e[0m" # Light Blue
+    echo -e "\e[91m5) 卸载web控制台\e[0m" # Light Red	
 #echo -e "\e[95m6) Simple Firewall Management\e[0m" # Light Purple
 #echo -e "\e[94m7) Tailscale Management\e[0m" # Light Blue
 #echo -e "\e[92m8) Install/Change or remove Daily Reboot Timer\e[0m" # Light Green
@@ -784,11 +785,11 @@ while true; do
 #echo -e "\e[92m11) Install Speedtest.net CLI app (speedtest command)\e[0m" # Light Green
 #echo -e "\e[92m12) Install Fast.com CLI app (fast command)(tops out at 40Mbps)\e[0m" # Light Green
 #echo -e "\e[92m13) Install OpenSSH Server\e[0m" # Light Green
-echo -e "\e[93m0) 退出\e[0m" # Yellow (repeated color for exit option)
-    read -p "Enter your choice: " choice
+    echo -e "\e[93m0) 退出\e[0m" # Yellow (repeated color for exit option)
+    read -p "请选择您要进行的操作" choice
 
     case $choice in
-        110)
+        4)
             send_at_commands
             ;;
         1)
@@ -799,7 +800,7 @@ echo -e "\e[93m0) 退出\e[0m" # Yellow (repeated color for exit option)
 		3)
 			set_root_passwd
 			;;
-		4)
+		5)
 			uninstall_simpleadmin_components
 			;;
 		116)
@@ -815,21 +816,21 @@ echo -e "\e[93m0) 退出\e[0m" # Yellow (repeated color for exit option)
 		119)
 			manage_cfun_fix
             ;;	    
-		120)
+		110)
 			echo -e "\033[31mAre you sure you want to uninstall entware?\033[0m"
-			echo -e "\033[31m1) Yes\033[0m"
-			echo -e "\033[31m2) No\033[0m"
+			echo -e "\033[31m1) 是\033[0m"
+			echo -e "\033[31m2) 否\033[0m"
 			read -p "Select an option (1 or 2): " user_choice
 
 			case $user_choice in
 				1)
-					# If yes, uninstall existing entware
+					# If 是, uninstall existing entware
 					echo -e "\033[31mUninstalling existing entware...\033[0m"
 					uninstall_entware  # Assuming uninstall_entware is a defined function or command
 					echo -e "\033[31mEntware has been uninstalled.\033[0m"
 					;;
 				2)
-					# If no, exit the script
+					# If 否, exit the script
 					echo -e "\033[31mUninstallation cancelled.\033[0m"
 					exit  # Use 'exit' to terminate the script outside a loop
 					;;
@@ -840,7 +841,7 @@ echo -e "\e[93m0) 退出\e[0m" # Yellow (repeated color for exit option)
 			esac
 			;;
 
-		121) 
+		111) 
 			ensure_entware_installed
 			echo -e "\e[1;32mInstalling Speedtest.net CLI (speedtest command)\e[0m"
      	    remount_rw
@@ -856,33 +857,20 @@ echo -e "\e[93m0) 退出\e[0m" # Yellow (repeated color for exit option)
      	    remount_ro
 			echo -e "\e[1;32mSpeedtest CLI (speedtest command) installed!!\e[0m"
      	    echo -e "\e[1;32mTry running the command 'speedtest'\e[0m"
-			echo -e "\e[1;32mNote that it will not work unless you login to the root account first\e[0m"
-			echo -e "\e[1;32mNormaly only an issue in adb, ttyd and ssh you are forced to login\e[0m"
+			echo -e "\e[1;32m否te that it will 否t work unless you login to the root account first\e[0m"
+			echo -e "\e[1;32m否rmaly only an issue in adb, ttyd and ssh you are forced to login\e[0m"
 			echo -e "\e[1;32mIf in adb just type login and then try to run the speedtest command\e[0m"
             ;;
-		122) 
-			echo -e "\e[1;32mInstalling fast.com CLI (fast command)\e[0m"
-     	    remount_rw
-			mkdir /usrdata/root
-     	    mkdir /usrdata/root/bin
-			cd /usrdata/root/bin
-     	    wget -O fast https://github.com/ddo/fast/releases/download/v0.0.4/fast_linux_arm && chmod +x fast
-     	    cd /
-			ln -sf /usrdata/root/bin/fast /bin
-     	    remount_ro
-			echo -e "\e[1;32mFast.com CLI (speedtest command) installed!!\e[0m"
-     	    echo -e "\e[1;32mTry running the command 'fast'\e[0m"
-			echo -e "\e[1;32mThe fast.com test tops out at 40Mbps on the modem\e[0m"
-            ;;
-		133) 
+
+		113) 
 			install_sshd
 			;;
 		0) 
-			echo -e "\e[1;32m下次见!\e[0m"
+			echo -e "\e[1;32mG拜拜了您内!\e[0m"
      	    break
             ;;    
     *)
-			echo -e "\e[1;31m无效输入！\e[0m"
+			echo -e "\e[1;31m无效选项\e[0m"
             ;;
     esac
 done

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define constants
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 DIR_NAME="simpleadmin"
 SERVICE_FILE="/lib/systemd/system/install_simpleadmin.service"
 SERVICE_NAME="install_simpleadmin"
@@ -45,8 +45,8 @@ EOF
 cat <<EOF > "$TMP_SCRIPT"
 #!/bin/bash
 
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 SIMPLE_ADMIN_DIR="/usrdata/simpleadmin"
 export HOME=/usrdata/root
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/bin:/opt/sbin:/usrdata/root/bin
@@ -62,32 +62,32 @@ remount_ro() {
 }
 remount_rw
 uninstall_simpleadmin() {
-	echo "Uninstalling Simpleadmin..."
+	echo "卸载Simpleadmin..."
 		
 	# Check if Lighttpd service is installed and remove it if present
 	if [ -f "/lib/systemd/system/lighttpd.service" ]; then
-		echo "Lighttpd detected, uninstalling Lighttpd webserver and its modules..."
+		echo "检测到Lighttpd，正在卸载Lighttpd Web服务器及其模块..."
 		systemctl stop lighttpd
 		rm -f /lib/systemd/system/lighttpd.service
 		opkg --force-remove --force-removal-of-dependent-packages remove lighttpd-mod-authn_file lighttpd-mod-auth lighttpd-mod-cgi lighttpd-mod-openssl lighttpd-mod-proxy lighttpd
 	fi
-	echo -e "\e[1;34mUninstalling simpleadmin content...\e[0m"
+	echo -e "\e[1;34m卸载 simpleadmin 组件...\e[0m"
 	systemctl stop simpleadmin_generate_status
 	systemctl stop simpleadmin_httpd
 	rm -f /lib/systemd/system/simpleadmin_httpd.service
 	rm -f /lib/systemd/system/simpleadmin_generate_status.service
 	systemctl daemon-reload
 	
-	echo -e "\e[1;34mUninstalling ttyd...\e[0m"
+	echo -e "\e[1;34m卸载 ttyd...\e[0m"
     systemctl stop ttyd
     rm -rf /usrdata/ttyd
 	rm -rf "$SIMPLE_ADMIN_DIR"
     rm -f /lib/systemd/system/ttyd.service
     rm -f /lib/systemd/system/multi-user.target.wants/ttyd.service
     rm -f /bin/ttyd
-    echo -e "\e[1;32mttyd has been uninstalled.\e[0m"
+    echo -e "\e[1;32mttyd已被卸载\e[0m"
 
-    echo "Uninstallation process completed."
+    echo "卸载进程完成."
 }
 
 install_lighttpd() {
@@ -126,7 +126,7 @@ install_lighttpd() {
 
 install_simpleadmin() {
 remount_rw
-echo -e "\e[1;31m2) Installing simpleadmin from the $GITTREE branch\e[0m"
+echo -e "\e[1;31m2) 安装web控制台 from the $GITTREE branch\e[0m"
 			mkdir $SIMPLE_ADMIN_DIR
 			mkdir $SIMPLE_ADMIN_DIR/systemd
 			mkdir $SIMPLE_ADMIN_DIR/script
@@ -202,7 +202,7 @@ echo -e "\e[1;31m2) Installing simpleadmin from the $GITTREE branch\e[0m"
 			sleep 1
 }
 install_ttyd() {
-    echo -e "\e[1;34mStarting ttyd installation process...\e[0m"
+    echo -e "\e[1;34m开始ttyd安装进程...\e[0m"
     cd $SIMPLE_ADMIN_DIR/console
     curl -L -o ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.7/ttyd.armhf && chmod +x ttyd
     wget "https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleadmin/console/ttyd.bash" && chmod +x ttyd.bash
@@ -220,7 +220,7 @@ install_ttyd() {
         exit 1
     fi
 
-    echo -e "\e[1;32mInstallation Complete! ttyd server is up.\e[0m"
+    echo -e "\e[1;32m安装! ttyd服务已启用.\e[0m"
 }
 uninstall_simpleadmin
 install_lighttpd

@@ -1,13 +1,14 @@
 #!/bin/bash
 
 # Define constants
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 DIR_NAME="socat-at-bridge"
 SERVICE_FILE="/lib/systemd/system/install_socat-at-bridge.service"
 SERVICE_NAME="install_socat-at-bridge"
 TMP_SCRIPT="/tmp/install_socat-at-bridge.sh"
 LOG_FILE="/tmp/install_socat-at-bridge.log"
+
 
 # Tmp Script dependent constants 
 SOCAT_AT_DIR="/usrdata/socat-at-bridge"
@@ -39,8 +40,8 @@ EOF
 cat <<EOF > "$TMP_SCRIPT"
 #!/bin/bash
 
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 SOCAT_AT_DIR="/usrdata/socat-at-bridge"
 SOCAT_AT_SYSD_DIR="/usrdata/socat-at-bridge/systemd_units"
 

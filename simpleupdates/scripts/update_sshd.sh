@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define constants
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 DIR_NAME="simpleupdates"
 SERVICE_FILE="/lib/systemd/system/install_sshd.service"
 SERVICE_NAME="install_sshd"
@@ -29,8 +29,8 @@ EOF
 cat <<EOF > "$TMP_SCRIPT"
 #!/bin/bash
 
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 
 install_sshd() {
 echo -e "\e[1;32mOpenSSH Server\e[0m"

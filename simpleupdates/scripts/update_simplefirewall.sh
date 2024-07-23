@@ -1,13 +1,14 @@
 #!/bin/bash
 
 # Define constants
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 DIR_NAME="simplefirewall"
 SERVICE_FILE="/lib/systemd/system/install_simplefirewall.service"
 SERVICE_NAME="install_simplefirewall"
 TMP_SCRIPT="/tmp/install_simple_firewall.sh"
 LOG_FILE="/tmp/install_simplefirewall.log"
+
 
 # Tmp Script dependent constants 
 SIMPLE_FIREWALL_DIR="/usrdata/simplefirewall"
@@ -41,8 +42,8 @@ EOF
 cat <<EOF > "$TMP_SCRIPT"
 #!/bin/bash
 
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 SIMPLE_FIREWALL_DIR="/usrdata/simplefirewall"
 SIMPLE_FIREWALL_SCRIPT="$SIMPLE_FIREWALL_DIR/simplefirewall.sh"
 SIMPLE_FIREWALL_SYSTEMD_DIR="$SIMPLE_FIREWALL_DIR/systemd"

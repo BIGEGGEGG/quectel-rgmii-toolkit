@@ -3,8 +3,8 @@
 # WORK IN PROGRESS
 
 # Define constants
-GITUSER="SunyWait"
-GITTREE="development"
+GITUSER="BIGEGGEGG"
+GITTREE="main"
 DIR_NAME="simpleupdates"
 SERVICE_FILE="/lib/systemd/system/install_simpleupdates.service"
 SERVICE_NAME="install_simpleupdates"
