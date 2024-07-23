@@ -772,10 +772,10 @@ while true; do
     echo -e "\e[0m"
     echo "选择一个操作:"
     echo -e "\e[0m"
-    echo -e "\e[96m4) 发送AT指令\e[0m" # Cyan
     echo -e "\e[93m1) 安装web控制台\e[0m" # Yellow
 	echo -e "\e[95m2) 设置web控制台 (admin) 密码\e[0m" # Light Purple
 	echo -e "\e[94m3) 设置Console/ttyd (root) 密码\e[0m" # Light Blue
+    echo -e "\e[96m4) 发送AT指令\e[0m" # Cyan
     echo -e "\e[91m5) 卸载web控制台\e[0m" # Light Red	
 #echo -e "\e[95m6) Simple Firewall Management\e[0m" # Light Purple
 #echo -e "\e[94m7) Tailscale Management\e[0m" # Light Blue
