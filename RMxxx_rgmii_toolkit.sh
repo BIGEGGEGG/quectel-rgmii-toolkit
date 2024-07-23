@@ -103,7 +103,7 @@ ensure_entware_installed() {
 	remount_rw
     if [ ! -f "/opt/bin/opkg" ]; then
         echo -e "\e[1;32m安装 Entware/OPKG\e[0m"
-        cd /tmp && wget -O installentware.sh "https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/installentware.sh" && chmod +x installentware.sh && ./installentware.sh
+        cd /tmp && wget -O installentware.sh "https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/installentware.sh" --no-check-certificate && chmod +x installentware.sh && ./installentware.sh
         if [ "$?" -ne 0 ]; then
             echo -e "\e[1;31mEntware/OPKG 安装失败，请检查您的互联网连接或存储库URL。\e[0m"
             exit 1
