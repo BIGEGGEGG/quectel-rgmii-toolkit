@@ -304,7 +304,7 @@ set_simpleadmin_passwd(){
   	opkg install libaprutil
 	wget -O /usrdata/root/bin/htpasswd https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleadmin/htpasswd && chmod +x /usrdata/root/bin/htpasswd
 	wget -O /usrdata/root/bin/simplepasswd https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/$GITTREE/simpleadmin/simplepasswd && chmod +x /usrdata/root/bin/simplepasswd
-	echo -e "\e[1;32m要在将来更改您的simpleadmin（admin）密码...\e[0m"
+	echo -e "\e[1;32m将来您需要使用web控制台（admin）密码访问...\e[0m"
 	echo -e "\e[1;32m在控制台中键入web控制台的密码，然后按enter键\e[0m"
 	/usrdata/root/bin/simplepasswd
 	

@@ -79,7 +79,7 @@ do
 done
 
 echo -e '\033[32mInfo: Opkg package manager deployment...\033[0m'
-URL=http://bin.entware.net/${ARCH}/installer
+URL=http://https://mirrors.cernet.edu.cn/entware/${ARCH}/installer
 wget $URL/opkg -O /opt/bin/opkg
 chmod 755 /opt/bin/opkg
 wget $URL/opkg.conf -O /opt/etc/opkg.conf
@@ -154,7 +154,7 @@ opkg update && opkg install shadow-login shadow-passwd shadow-useradd
     ln -sf /opt/bin/login /bin
     ln -sf /opt/bin/passwd /usr/bin/
 	ln -sf /opt/bin/useradd /usr/bin/
-    echo -e "\e[1;31mPlease set the root password.\e[0m"
+    echo -e "\e[1;31m请设置一个root密码\e[0m"
     /usr/bin/passwd
 
     # Install basic and useful utilites
