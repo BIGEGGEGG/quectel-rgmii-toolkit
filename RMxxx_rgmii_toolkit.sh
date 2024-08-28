@@ -2,7 +2,7 @@
 
 # Define toolkit paths
 GITUSER="BIGEGGEGG"
-GITTREE="main"
+GITTREE="old"
 TMP_DIR="/tmp"
 USRDATA_DIR="/usrdata"
 SOCAT_AT_DIR="/usrdata/socat-at-bridge"
@@ -391,34 +391,34 @@ install_simple_admin() {
   		mkdir $SIMPLE_ADMIN_DIR/www/css
     		mkdir $SIMPLE_ADMIN_DIR/www/js
                 cd $SIMPLE_ADMIN_DIR/systemd
-                wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/systemd/simpleadmin_generate_status.service
-		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/systemd/simpleadmin_httpd.service
+                wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/systemd/simpleadmin_generate_status.service
+		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/systemd/simpleadmin_httpd.service
   		sleep 1
   		cd $SIMPLE_ADMIN_DIR/scripts
-  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/scripts/build_modem_status
-    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/scripts/modemstatus_parse.sh
-      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/scripts/tojson.sh
+  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/scripts/build_modem_status
+    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/scripts/modemstatus_parse.sh
+      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/scripts/tojson.sh
 		sleep 1
 		cd $SIMPLE_ADMIN_DIR/www
-		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/atcommander.html
-  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/index.html
-    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/speedtest.html
-      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/styles.css
-		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/ttl.html
-  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/bandlock.html
+		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/atcommander.html
+  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/index.html
+    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/speedtest.html
+      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/styles.css
+		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/ttl.html
+  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/bandlock.html
   		sleep 1
   		cd $SIMPLE_ADMIN_DIR/www/js
-  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/js/alpinejs.min.js
+  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/js/alpinejs.min.js
     		sleep 1
     		cd $SIMPLE_ADMIN_DIR/www/css
-    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/css/admin.css
-      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/css/bulma.css
+    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/css/admin.css
+      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/css/bulma.css
 		sleep 1
 		cd $SIMPLE_ADMIN_DIR/www/cgi-bin
-		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/cgi-bin/get_atcommand
-  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/cgi-bin/get_csq
-    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/cgi-bin/get_ttl_status
-      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/simpleadmin/www/cgi-bin/set_ttl
+		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/cgi-bin/get_atcommand
+  		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/cgi-bin/get_csq
+    		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/cgi-bin/get_ttl_status
+      		wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/simpleadmin/www/cgi-bin/set_ttl
 		sleep 1
   		cd /
                 chmod +x $SIMPLE_ADMIN_DIR/scripts/*
@@ -591,8 +591,8 @@ install_update_remove_tailscale() {
 	rm -rf /usrdata/tailscale_1.62.1_arm
     	echo "Downloading systemd files..."
      	cd $TAILSCALE_SYSD_DIR
-      	wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/tailscale/systemd/tailscaled.service
-       	wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/tailscale/systemd/tailscaled.defaults
+      	wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/tailscale/systemd/tailscaled.service
+       	wget https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/tailscale/systemd/tailscaled.defaults
 	sleep 2s
 	echo "Setting Permissions..."
         chmod +x /usrdata/tailscale/tailscaled
@@ -627,8 +627,8 @@ configure_tailscale() {
         1)
 	remount_rw
 	cd /lib/systemd/system/
-	wget -O tailscale-webui.service https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/tailscale/systemd/tailscale-webui.service
-  	wget -O tailscale-webui-trigger.service https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/main/tailscale/systemd/tailscale-webui-trigger.service
+	wget -O tailscale-webui.service https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/tailscale/systemd/tailscale-webui.service
+  	wget -O tailscale-webui-trigger.service https://raw.gitmirror.com/$GITUSER/quectel-rgmii-toolkit/old/tailscale/systemd/tailscale-webui-trigger.service
      	ln -sf /lib/systemd/system/tailscale-webui-trigger.service /lib/systemd/system/multi-user.target.wants/
      	systemctl daemon-reload
        	echo "Tailscale Web UI Enabled"
